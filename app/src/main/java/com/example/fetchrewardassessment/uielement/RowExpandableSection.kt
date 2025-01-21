@@ -22,18 +22,23 @@ import com.example.fetchrewardassessment.model.ItemModel
 
 
 @Composable
-fun ExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean = false) {
+//for displaying an expandable section containing a list of items
+fun RowExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean = false) {
     var expanded by remember { mutableStateOf(false) }
+
+    // this is Animation for rotating the expand or collapse icon.
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         animationSpec = tween(durationMillis = 300)
     )
-
+    // this is Main container for the expandable section.
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
+
+        // The header card for the expandable section.
         Card(
             onClick = { expanded = !expanded },
             modifier = Modifier.fillMaxWidth(),
@@ -50,6 +55,8 @@ fun ExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean 
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
+                // this will Displays the title and the count of items.
                 Text(
                     text = "$title (${items.size} items)",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
@@ -62,6 +69,7 @@ fun ExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean 
                 )
             }
         }
+        // Content displayed when the section is expanded.
         if (expanded) {
             if (items.isEmpty()) {
                 Text(
@@ -70,6 +78,8 @@ fun ExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean 
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
             } else {
+                // Display each item in an individual card.
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -86,6 +96,7 @@ fun ExpandableSection(title: String, items: List<ItemModel>, highlight: Boolean 
 }
 
 @Composable
+// for displaying a single item in a card format.
 fun ItemCard(item: ItemModel) {
 
     Card(
@@ -102,11 +113,13 @@ fun ItemCard(item: ItemModel) {
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Displays the item's ID.
             Text(
                 text = "ID: ${item.id}",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
                 modifier = Modifier.weight(1f)
             )
+            // Displays the item's name or "Unnamed" if the name is null.
             Text(
                 text = item.name ?: "Unnamed",
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp),

@@ -20,9 +20,11 @@ class ViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiStateModel())
     val uiState: StateFlow<UiStateModel> = _uiState.asStateFlow()
 
+    // OkHttp client instance for performing network operations.
     private val client = OkHttpClient()
 
     init {
+        // it Fetch data when the ViewModel is created.
         viewModelScope.launch {
             val items = fetchData()
             _uiState.update {
@@ -31,9 +33,11 @@ class ViewModel : ViewModel() {
         }
     }
 
+    // this will Fetches data from a remote JSON source.
     private suspend fun fetchData(): List<Pair<Int, List<ItemModel>>> {
         return withContext(Dispatchers.IO) {
             try {
+                // Build and execute the HTTP request.
                 val request = Request.Builder()
                     .url("https://fetch-hiring.s3.amazonaws.com/hiring.json")
                     .build()
@@ -49,23 +53,25 @@ class ViewModel : ViewModel() {
         }
     }
 
+    // this will Parses JSON data into grouped and sorted items.
     private fun parseData(json: String): List<Pair<Int, List<ItemModel>>> {
         val type = object : TypeToken<List<ItemModel>>() {}.type
+        // Parse the JSON string into a list of ItemModel objects.
         val items: List<ItemModel> = Gson().fromJson(json, type)
 
-        return items.filter { !it.name.isNullOrBlank() } // Filter invalid items
+        return items.filter { !it.name.isNullOrBlank() }
             .sortedWith(
                 compareBy(
-                    { it.listId }, // Sort by `listId`
-                    { extractNumericValue(it.name) }, // Sort by number in `name`
-                    { it.id } // Sort by numeric `id`
+                    { it.listId },
+                    { extractNumericValue(it.name) },
+                    { it.id }
                 )
             )
-            .groupBy { it.listId } // Group by `listId`
+            .groupBy { it.listId }
             .toList()
     }
 
-    // Function to extract the numeric value from the `name` field
+    // this will Extracts numeric values from the item name for sorting.
     private fun extractNumericValue(name: String?): Int {
         return name?.replace("Item", "")?.trim()?.toIntOrNull() ?: Int.MAX_VALUE
     }

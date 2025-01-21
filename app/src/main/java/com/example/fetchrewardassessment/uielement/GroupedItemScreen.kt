@@ -10,18 +10,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
-fun FetchHiringScreen(
+//created to render the ui
+fun GroupedItemScreen(
     modifier: Modifier = Modifier,
     viewModel: ViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    // A scrollable column that lazily loads items as needed.
     LazyColumn(modifier = modifier) {
 
         uiState.groupedItems.forEach { (listId, items) ->
 
+            // Adds an item to the LazyColumn for each group.
             item {
-                ExpandableSection(title = "List ID: $listId", items = items)
+                // Custom composable to display an expandable section for the group.
+
+                RowExpandableSection(title = "List ID: $listId", items = items)
             }
         }
     }

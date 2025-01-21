@@ -13,9 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.fetchrewardassessment.uielement.FetchHiringScreen
+import com.example.fetchrewardassessment.uielement.GroupedItemScreen
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -24,9 +23,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
+                // Scaffold layout with a top app bar and main content.
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
+                        // Top app bar with a title and styling
                         TopAppBar(
                             title = {
                                 Text(
@@ -42,10 +43,11 @@ class MainActivity : ComponentActivity() {
                     }
                 )
                 { innerPadding ->
-                    FetchHiringScreen(
+                    // Main content of the screen
+                    GroupedItemScreen(
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(top = 16.dp) // Add additional padding for content
+                            .padding(top = 16.dp)
                     )
                 }
             }
