@@ -19,11 +19,3 @@ This repository contains the codebase for the Fetch Reward Assessment project, a
 3. Sync the Gradle files.
 4. Run the application on an emulator or physical device.
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-
-For inquiries, feel free to open an issue or reach out to the maintainers.
-
